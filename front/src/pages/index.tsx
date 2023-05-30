@@ -1,12 +1,26 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { contactData } from "@/schemas/contacts.schema"
+import api from "@/services/api"
+import { GetServerSideProps, NextPage } from "next"
 
-const inter = Inter({ subsets: ['latin'] })
+interface HomeProps {
+  contacts: contactData[]
+}
 
-export default function Home() {
+// export const getServerSideProps: GetServerSideProps =async () => {
+//   const res = await api.get<contactData[]>("/contacts")
+
+//   return {
+//     props:{contacts: res.data}
+//   }
+// }
+
+const Home:NextPage<HomeProps> = ({contacts}) => {
+  console.log(contacts)
   return (
     <main>
       <h1>hi</h1>
     </main>
   )
 }
+
+export default Home
