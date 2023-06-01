@@ -9,3 +9,27 @@
 }
 
 
+
+@layer components {
+
+  .box {
+    @apply rounded-md bg-white max-w-sm mx-auto mb-24 p-3 text-center shadow-md
+  }
+
+  .form-login {
+    @apply flex flex-col items-center justify-around w-96 h-60 p-3
+  }
+
+  .form-register {
+    @apply flex flex-col items-center justify-around w-96 h-80 p-3
+  }
+
+  .inputs {
+    @apply outline-none bg-white w-64 border-0 box-border text-lg
+  }
+
+  .button {
+    @apply uppercase outline-none bg-green-500 hover:bg-green-600 w-52 p-3 rounded-md border-0 text-white text-sm cursor-pointer
+  }
+
+}

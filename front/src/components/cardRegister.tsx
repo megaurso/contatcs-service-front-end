@@ -1,20 +1,33 @@
 import Link from 'next/link';
-import { Inputs } from "./inputs"
+import { useForm } from 'react-hook-form';
+import { UserData, userSchema } from '@/schemas/user.schemas';
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useAuth } from '@/contexts/authContext';
 
 
 
 const CardRegister = () =>{
 
+    const {register , handleSubmit} = useForm<UserData>({
+        resolver:zodResolver(userSchema)
+    })
+    
+    const { register: registerUser} = useAuth()
+
+    const onFormSubmit = (formData: UserData)=>{
+       registerUser(formData)
+    }
+
     return(
         <div className=" w-360px py-8p mx-auto">
-            <div className="rounded-md bg-white max-w-360px mx-auto mb-100px p-45 text-center shadow-md">
-                <form className="flex flex-col items-center justify-around w-96 h-80 ">
-                <Inputs className="outline-none bg-f2f2f2 w-64 border-0 mb-15px p-15 box-border text-14px " type="text" placeholder="Nome Completo"/>
-                <Inputs className="outline-none bg-f2f2f2 w-64 border-0 mb-15px p-15 box-border text-14px " type="text" placeholder="Email"/>
-                <Inputs className="outline-none bg-f2f2f2 w-64 border-0 mb-15px p-15 box-border text-14px" type="password" placeholder="Senha"/>
-                <Inputs className="outline-none bg-f2f2f2 w-64 border-0 mb-15px p-15 box-border text-14px " type="text" placeholder="Telefone"/>
-                <button className="uppercase outline-none bg-green-500 hover:bg-green-600 w-40 p-2 rounded-md border-0 p-15 text-white text-14px cursor-pointer">Criar conta</button>
-                <Link href="/login">
+            <div className="box">
+                <form className="form-register" onSubmit={handleSubmit(onFormSubmit)}>
+                <input className="inputs" type="text" placeholder="Nome Completo" {...register("name")}/>
+                <input className="inputs" type="text" placeholder="Email" {...register("email")}/>
+                <input className="inputs" type="password" placeholder="Senha" {...register("password")}/>
+                <input className="inputs" type="text" placeholder="Telefone" {...register("telephone")}/>
+                <button className="button" type='submit'>Criar conta</button>
+                <Link href={"/login"}>
                     <p className="mt-15 text-gray-400 text-xs">
                         Ja é registrado? <span className="text-green-500 no-underline">Vá para area de login!</span>
                     </p>
