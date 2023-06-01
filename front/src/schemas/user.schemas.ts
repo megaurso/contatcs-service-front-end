@@ -1,3 +1,4 @@
+import { contactSchemas } from './contacts.schema';
 import { z } from "zod";
 
 export const userSchema = z.object({
@@ -7,10 +8,17 @@ export const userSchema = z.object({
   telephone: z.string().nonempty("Por favor insira um numero de telefone"),
 });
 
+export const infoUser = userSchema.extend({
+  id:z.string(),
+  date:z.string(),
+  contacts: z.array(contactSchemas)
+})
+
 export const loginSchema = userSchema.omit({
   name: true,
   telephone: true,
 });
 
+export type UserInfoType = z.infer<typeof infoUser>
 export type UserData = z.infer<typeof userSchema>;
 export type LoginData = z.infer<typeof loginSchema>;

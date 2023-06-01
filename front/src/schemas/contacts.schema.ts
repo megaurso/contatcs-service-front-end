@@ -8,4 +8,4 @@ export const contactSchemas = z.object({
   date: z.string(),
 });
 
-export type contactData = z.infer<typeof contactSchemas>;
+export type ContactData = z.infer<typeof contactSchemas>;
