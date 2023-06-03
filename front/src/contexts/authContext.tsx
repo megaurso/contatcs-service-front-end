@@ -3,7 +3,8 @@ import api from "@/services/api";
 import { useRouter } from "next/router";
 import { setCookie } from "nookies";
 import { ReactNode,createContext, useContext } from "react"
-import { toast } from "react-toastify"
+import  Toast  from "../components/toast";
+
 
 
 interface Props{
@@ -21,36 +22,21 @@ export const AuthProvider = ({children}: Props)=>{
     const router = useRouter()
 
     const register = (userData:UserData)=>{
-        api.post("/users", userData)
+        api
+        .post("/users", userData)
         .then(()=>{
-            toast.success('Usuario cadastrado!', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                });
+            Toast({message: "Usuario cadastrado!", isSucess:true})
             router.push("/login")
-        }).catch((err)=>{
-            console.log(err)
-            toast.error('Criação invalida tente novamente mais tarde ou utilize outro email', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                });
         })
+        .catch((err)=>{
+            console.log(err)
+            Toast({message:'Criação invalida tente novamente mais tarde ou utilize outro email', isSucess:false})
+        });
     }
 
     const login =(loginData:LoginData)=>{
-        api.post("/login",loginData)
+        api
+        .post("/login",loginData)
         .then((response)=>{
             setCookie(null,"contacts.token",response.data.token,{
                 maxAge:60 * 60,
@@ -58,30 +44,13 @@ export const AuthProvider = ({children}: Props)=>{
             })
         })
         .then(()=>{
-            toast.success('Seja bem vindo!', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                });
+            Toast({message:'Seja bem vindo!',isSucess:true})
             router.push("/")
-        }).catch((err)=>{
+        })
+        .catch((err)=>{
             console.log(err)
-            toast.error('Email ou senha incorretas tente novamente!', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                });
-    })
+            Toast({message:"Email ou senha incorretas tente novamente!", isSucess:false})
+        });
     }
     return <AuthContext.Provider value={{register,login}}>{children}</AuthContext.Provider>
 }
