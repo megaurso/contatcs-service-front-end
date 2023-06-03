@@ -46,9 +46,6 @@ export const AuthProvider = ({children}: Props)=>{
         .then(()=>{
             Toast({message:'Seja bem vindo!',isSucess:true})
             router.push("/")
-            setTimeout(() => {
-                window.location.reload();
-              }, 500);
         })
         .catch((err)=>{
             console.log(err)

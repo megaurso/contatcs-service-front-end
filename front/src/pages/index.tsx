@@ -46,7 +46,7 @@ const Home:NextPage = () => {
     };
     
     fetchData();
-  }, [accessToken,userId]);
+  }, [accessToken,userId,contactsUser]);
   
   const handleCreateContactModalOpen = () => {
     setCreateContactsModalOpen(true);
